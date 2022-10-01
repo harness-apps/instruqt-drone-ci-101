@@ -1,0 +1,18 @@
+slug: drone-ci
+id: ku2xvnptbg4i
+version: 0.0.1
+title: Drone CI
+teaser: Getting started with CI on Kubernetes with Drone CI
+description: |-
+  Drone CI 101
+
+  __TBD__: update the description
+icon: ""
+tags: []
+owner: harness
+developers:
+- kamesh.sampath@harness.io
+- jim.sheldon@harness.io
+private: true
+published: true
+checksum: "15771503086792348279"

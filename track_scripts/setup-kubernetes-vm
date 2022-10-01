@@ -1,0 +1,76 @@
+#!/bin/bash 
+
+set -euxo pipefail
+
+# Wait for the Instruqt host bootstrap to finish
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]
+do
+    sleep 1
+done
+
+# # Wait for the Kubernetes API server to become available
+while ! curl --silent --fail --output /dev/null http://localhost:8001/api 
+do
+    sleep 1 
+done
+
+apt-get update
+
+# # Enable bash completion for kubectl
+curl https://raw.githubusercontent.com/ahmetb/kubectl-aliases/master/.kubectl_aliases -o /root/.kubectl_aliases
+
+printf "source /usr/share/bash-completion/bash_completion\ncomplete -F __start_kubectl k\nexport do=('--dry-run=client' '-o' 'yaml')\n[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases\n" >> /root/.bashrc
+
+## direnv
+apt install direnv
+direnv --version
+echo 'eval "$(direnv hook bash)"' >> /root/.bashrc
+
+# crane
+go install github.com/google/go-containerregistry/cmd/crane@latest
+
+# Drone CLI
+curl -L https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+install -t /usr/local/bin drone
+
+## install podman cli and net tools
+apt install -y podman-docker net-tools
+
+# Add insecure registry, it will by default add the registry
+# that will be configured via private registry challenge
+cat > /etc/containers/registries.conf.d/myregistry.conf <<EOF
+[[registry]]
+location = "localhost:31081"
+insecure = true
+
+EOF
+# superess Docker CLI using podman message
+touch /etc/containers/nodocker
+
+## envsubst
+envsubst --version
+
+# httpie
+# apt install -y httpie
+snap install httpie
+
+# kustomize
+snap install kustomize
+
+# kubens + kubectx
+snap install --classic kubectx
+
+# jq
+snap install jq
+
+# starship
+snap install starship
+
+echo 'eval "$(starship init bash)"' >> /root/.bashrc
+
+# yq
+snap install yq
+
+direnv allow .
+
+set-workdir "$PWD"
