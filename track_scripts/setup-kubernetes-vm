@@ -29,19 +29,14 @@ echo 'eval "$(direnv hook bash)"' >> /root/.bashrc
 # crane
 go install github.com/google/go-containerregistry/cmd/crane@latest
 
-## install podman cli and net tools
-apt install -y podman-docker net-tools
+# Docker CE
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh ./get-docker.sh
 
-# Add insecure registry, it will by default add the registry
-# that will be configured via private registry challenge
-cat > /etc/containers/registries.conf.d/myregistry.conf <<EOF
-[[registry]]
-location = "localhost:31081"
-insecure = true
+systemctl enable docker
+systemctl start docker
 
-EOF
-# superess Docker CLI using podman message
-touch /etc/containers/nodocker
+rm -f get-docker.sh
 
 ## envsubst
 envsubst --version
@@ -67,13 +62,12 @@ echo 'eval "$(starship init bash)"' >> /root/.bashrc
 # yq
 snap install yq
 
-direnv allow .
-
 ## Extract all examples here
 mkdir -p "$HOME/repos"
 echo 'export GIT_REPOS_HOME="$HOME/repos"' >> /root/.bashrc
+echo 'export TUTORIAL_HOME=/root/repos/drone-ci-101' >> /root/.bashrc
 
 cd "$HOME/repos" || true
-git clone https://github.com/harness-apps/drone-ci-101-examples.git examples
+git clone https://github.com/harness-apps/drone-ci-101.git drone-ci-101
 
 set-workdir "$PWD"
