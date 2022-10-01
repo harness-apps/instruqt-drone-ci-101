@@ -29,10 +29,6 @@ echo 'eval "$(direnv hook bash)"' >> /root/.bashrc
 # crane
 go install github.com/google/go-containerregistry/cmd/crane@latest
 
-# Drone CLI
-curl -L https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
-install -t /usr/local/bin drone
-
 ## install podman cli and net tools
 apt install -y podman-docker net-tools
 
@@ -72,5 +68,12 @@ echo 'eval "$(starship init bash)"' >> /root/.bashrc
 snap install yq
 
 direnv allow .
+
+## Extract all examples here
+mkdir -p "$HOME/repos"
+echo 'export GIT_REPOS_HOME="$HOME/repos"' >> /root/.bashrc
+
+cd "$HOME/repos" || true
+git clone https://github.com/harness-apps/drone-ci-101-examples.git examples
 
 set-workdir "$PWD"
