@@ -1,6 +1,6 @@
 ---
 slug: deploying-gitea
-id: pyarbqplqky5
+id: cr1o1oyqdq0b
 type: challenge
 title: Deploy Gitea
 teaser: Everything starts with git in CI world

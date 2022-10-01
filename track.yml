@@ -1,4 +1,4 @@
-slug: drone-ci
+slug: drone-ci-101
 id: ku2xvnptbg4i
 version: 0.0.1
 title: Drone CI
@@ -8,10 +8,11 @@ description: |-
 
   __TBD__: update the description
 icon: ""
-tags: []
+tags:
+- ""
 owner: harness
 developers:
 - kamesh.sampath@harness.io
 private: true
 published: true
-checksum: "4222391641572811209"
+checksum: "2234188567589037412"

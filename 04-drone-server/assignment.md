@@ -1,5 +1,6 @@
 ---
 slug: drone-server
+id: uokbui81kiwl
 type: challenge
 title: Drone Server
 teaser: A short description of the challenge.
@@ -27,3 +28,13 @@ tabs:
 difficulty: basic
 timelimit: 600
 ---
+
+👋 Introduction
+===============
+
+**TODO**
+
+🏁 Finish
+=========
+
+To complete this challenge, press **Check**.

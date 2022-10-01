@@ -1,5 +1,6 @@
 ---
 slug: drone-secrets
+id: 0ajseexuo6xa
 type: challenge
 title: Drone Secrets
 teaser: A short description of the challenge.
@@ -27,3 +28,13 @@ tabs:
 difficulty: basic
 timelimit: 600
 ---
+
+👋 Introduction
+===============
+
+**TODO**
+
+🏁 Finish
+=========
+
+To complete this challenge, press **Check**.
