@@ -1,26 +1,23 @@
 ---
-slug: deploying-gitea
+slug: deploying-git
 id: cr1o1oyqdq0b
 type: challenge
-title: Deploy Gitea
+title: Deploy Git(Gitea) Server
 teaser: Everything starts with git in CI world
 notes:
 - type: text
   contents: |-
-    This track uses a single node Kubernetes cluster on a sandbox virtual machine.
-    Please wait while we boot the VM for you and start Kubernetes.
-
     ## Objectives
 
     In this challenge, this is what you'll learn:
-    - Deploy Gitea on Kubernetes
+    - Deploy Git (Gitea) on Kubernetes
     - Expose the deployment with a NodePort service
     - View the exposed `gitea-http` service in your browser
     - Explore the Gitea dashboard
 
     ## Duration
 
-    ~30 minutes
+    ~15 minutes
 tabs:
 - title: Terminal 1
   type: terminal

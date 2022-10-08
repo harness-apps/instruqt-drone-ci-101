@@ -155,43 +155,19 @@ Trusted mode instructs `drone` to run in trusted mode typically with extra privi
 
 When to use **trusted** mode ?
 
-Lets take an example of building and pushing our application as a container image to local registry. In order to do that we need:
+Lets take an example of building and pushing our application as a container image to local registry. In order to do that we need,
 
 - An application, with Dockerfile to build the container image
-- A local container registry, where the built image will be pushed
+- A local container registry, where the built image will be pushed. We already have container registry that we deployed as part of the first challenge.
 
-Deploy Local Container Registry
--------------------------------
-
-Before we execute the pipeline we need to start a [local container registry](https://docs.docker.com/registry/), run the following command to start one locally,
+Pipeline
+--------
 
 On the **Terminal** tab navigate back to `$EXAMPLES_HOME/hello-go` folder
 
 ```shell
 cd $EXAMPLES_HOME/hello-go
 ```
-
-Run the following command to start a local container registry,
-
-```shell
-docker run -d -p 5001:5000 --name registry registry:2
-```
-
-You can verify if the registry is started using the `docker ps` command.
-
-```shell
-docker ps --filter name=registry
-```
-
-The command should return an output like,
-
-```shell
-CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS          PORTS                    NAMES
-673c375aca50   registry:2   "/entrypoint.sh /etc…"   41 minutes ago   Up 41 minutes   0.0.0.0:5001->5000/tcp   registry
-```
-
-Pipeline
---------
 
 Open the exercise folder **$EXAMPLES_HOME/hello-go** on the **Editor** and analyse the Drone pipeline,
 
