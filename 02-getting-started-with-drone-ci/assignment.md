@@ -25,14 +25,14 @@ notes:
 tabs:
 - title: Terminal
   type: terminal
-  hostname: kubernetes-vm
+  hostname: docker-vm
 - title: Editor
   type: code
-  hostname: kubernetes-vm
-  path: /root/repos/examples
+  hostname: docker-vm
+  path: /root/repos/drone-ci-101
 - title: Terminal 2
   type: terminal
-  hostname: kubernetes-vm
+  hostname: docker-vm
 difficulty: basic
 timelimit: 1800
 ---
@@ -41,9 +41,6 @@ timelimit: 1800
 ===============
 
 Drone is very lightweight CI that can run in both Client-Server mode or as arbitrary binary on our local laptops.
-
-> **NOTE**:
-> The `$EXAMPLES_HOME`(examples) folder has various drone pipeline examples that we will use as part of this chapter.
 
 Download and Install Drone CLI
 ==============================
@@ -70,7 +67,7 @@ Ensure Environment
 docker --version
 ```
 
-The command should show an output like `Docker version 20.10.16, build aa7e414`
+The command should show an output like `Docker version 20.10.12, build e91ed57`
 
 Your first Pipeline
 -------------------
@@ -80,7 +77,7 @@ In order get the feel of `drone` let us run create and run our very first pipeli
 On the **Terminal** tab navigate to the examples folder,
 
 ```shell
-cd "$GIT_REPOS_HOME/examples"
+cd "$TUTORIAL_HOME"
 ```
 
 As prompted let us set some environment variables,
@@ -108,7 +105,7 @@ steps:
 Let us run our first pipeline, navigate to the **Terminal** tab and run,
 
 ```shell
-cd $EXAMPLES_HOME/my-first-pipeline
+cd $TUTORIAL_HOME/my-first-pipeline
 drone exec
 ```
 
@@ -163,13 +160,13 @@ Lets take an example of building and pushing our application as a container imag
 Pipeline
 --------
 
-On the **Terminal** tab navigate back to `$EXAMPLES_HOME/hello-go` folder
+On the **Terminal** tab navigate back to `$TUTORIAL_HOME/hello-go` folder
 
 ```shell
-cd $EXAMPLES_HOME/hello-go
+cd $TUTORIAL_HOME/hello-go
 ```
 
-Open the exercise folder **$EXAMPLES_HOME/hello-go** on the **Editor** and analyse the Drone pipeline,
+Open the exercise folder **$TUTORIAL_HOME/hello-go** on the **Editor** and analyse the Drone pipeline,
 
 ```yaml
 kind: pipeline
@@ -282,10 +279,10 @@ steps:
       - echo こんにちは世界
 ```
 
-On the **Terminal** tab, navigate to `$EXAMPLES_HOME/greeting`,
+On the **Terminal** tab, navigate to `$TUTORIAL_HOME/greeting`,
 
 ```shell
-cd $EXAMPLES_HOME/greeting
+cd $TUTORIAL_HOME/greeting
 ```
 
 Include Steps
@@ -359,10 +356,10 @@ Run Pipeline
 
 In order for the steps to use `${GREETING_MESSAGE}` as environment variable, we use the `--env-file` option of the `drone` command to load `my-env` into the step container.
 
-On the **Terminal** tab, navigate to `$EXAMPLES_HOME/use-env`
+On the **Terminal** tab, navigate to `$TUTORIAL_HOME/use-env`
 
 ```shell
-cd $EXAMPLES_HOME/env-greeting
+cd $TUTORIAL_HOME/env-greeting
 ```
 
 Now run the pipeline,
@@ -449,10 +446,10 @@ postgres_password=pa55Word!
 Run Pipeline
 ------------
 
-On the **Terminal** tab, navigate to `$EXAMPLES_HOME/using-secrets`
+On the **Terminal** tab, navigate to `$TUTORIAL_HOME/using-secrets`
 
 ```shell
-cd $EXAMPLES_HOME/using-secrets
+cd $TUTORIAL_HOME/using-secrets
 ```
 
 Now run the pipeline,
@@ -535,10 +532,10 @@ steps:
 Run a Stage
 -----------
 
-On the **Terminal** tab, navigate to `$EXAMPLES_HOME/multiple-stages`
+On the **Terminal** tab, navigate to `$TUTORIAL_HOME/multiple-stages`
 
 ```shell
-cd $EXAMPLES_HOME/multiple-stages
+cd $TUTORIAL_HOME/multiple-stages
 ```
 
 Let us say you want to run the *japanese* stage of the pipeline,
@@ -559,7 +556,7 @@ Exchange Information Between Steps
 
 The pipeline does not run independently, each step produces some output that may be used by the next step(s). The easiest way to exchange information between steps is using Volume mounts,
 
-Open thr exercise folder `$EXAMPLES_HOME/exchange-info` on the editor **Editor**,
+Open thr exercise folder `$TUTORIAL_HOME/exchange-info` on the editor **Editor**,
 
 Let us check the pipeline file,
 
@@ -590,10 +587,10 @@ volumes:
 
 As you noticed both the steps *store-message* and *show-message* mounts a Volume on same path `/data`. The *store-message* writes an output to the file `/data/message.txt` which is then read and displayed by the next step *show-message*.
 
-On the **Terminal** tab, navigate to `$EXAMPLES_HOME/exchange-info`
+On the **Terminal** tab, navigate to `$TUTORIAL_HOME/exchange-info`
 
 ```shell
-cd $EXAMPLES_HOME/exchange-info
+cd $TUTORIAL_HOME/exchange-info
 ```
 
 Run the pipeline to see it in action,

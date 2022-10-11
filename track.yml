@@ -2,12 +2,21 @@ slug: drone-ci-101
 id: ku2xvnptbg4i
 version: 0.0.1
 title: Drone CI
-teaser: Getting started with CI on Kubernetes with Drone CI
+teaser: Getting started with Continuous Integration with Drone CI
 description: |-
-  Drone CI 101
+  Despite the broad adoption of Cloud Native architectures, many companies wonder why they haven’t increased their developer productivity and software delivery velocity. One of the reasons is their adherence to traditional ways of building and deploying applications.
 
-  __TBD__: update the description
-icon: ""
+  Though 10 years old, Drone --  a cloud native self-service Continuous Integration platform --   offers a mature, Kubernetes based CI system harnessing the scaling and fault tolerance characteristics of Cloud Native architectures. Drone harnesses the power of containers and helps in  building your applications for Cloud at the same time being Simple, Declarative and Decoupled.
+
+  In this workshop, you will learn,
+
+  - Understanding the basics of Drone CI, writing your first pipeline
+  - Using Drone CLI, running Drone CI from your laptops
+  - Using Drone CI Extension for Docker Desktop
+  - How to use secrets, environment variables with Drone CI
+  - Define multi stage Drone CI pipelines
+  - Deploy the built container image to Google Cloud Run using Harness CD (Free Tier)
+icon: ./assets/logo.svg
 tags:
 - ""
 owner: harness
@@ -15,4 +24,4 @@ developers:
 - kamesh.sampath@harness.io
 private: true
 published: true
-checksum: "7013758076966859891"
+checksum: "10124856390097664542"
