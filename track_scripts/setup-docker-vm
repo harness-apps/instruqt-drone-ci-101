@@ -1,0 +1,44 @@
+#!/bin/bash 
+
+set -euxo pipefail
+
+# Wait for the Instruqt host bootstrap to finish
+until [ -f /opt/instruqt/bootstrap/host-bootstrap-completed ]
+do
+    sleep 1
+done
+
+apt-get update
+
+## direnv
+apt install direnv
+direnv --version
+echo 'eval "$(direnv hook bash)"' >> /root/.bashrc
+
+## envsubst
+envsubst --version
+
+# httpie
+# apt install -y httpie
+snap install httpie
+
+# jq
+snap install jq
+
+# starship
+snap install starship
+
+echo 'eval "$(starship init bash)"' >> /root/.bashrc
+
+# yq
+snap install yq
+
+## Extract all examples here
+mkdir -p "$HOME/repos"
+echo 'export GIT_REPOS_HOME="$HOME/repos"' >> /root/.bashrc
+echo 'export TUTORIAL_HOME=/root/repos/drone-ci-101' >> /root/.bashrc
+
+cd "$HOME/repos" || true
+git clone https://github.com/harness-apps/drone-ci-101.git drone-ci-101
+
+set-workdir "$PWD"
