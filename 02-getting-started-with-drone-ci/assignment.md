@@ -74,7 +74,7 @@ Your first Pipeline
 
 In order get the feel of `drone` let us run create and run our very first pipeline.
 
-On the **Terminal** tab navigate to the examples folder,
+On the **Terminal** tab navigate to the tutorial home folder,
 
 ```shell
 cd "$TUTORIAL_HOME"
