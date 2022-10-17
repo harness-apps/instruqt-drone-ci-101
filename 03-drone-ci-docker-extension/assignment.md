@@ -15,7 +15,7 @@ notes:
 tabs:
 - title: Terminal
   type: terminal
-  hostname: docker-vm
+  hostname: kubernetes-vm
 difficulty: basic
 timelimit: 600
 ---

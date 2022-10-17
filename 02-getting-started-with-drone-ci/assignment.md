@@ -25,14 +25,14 @@ notes:
 tabs:
 - title: Terminal
   type: terminal
-  hostname: docker-vm
+  hostname: kubernetes-vm
 - title: Editor
   type: code
-  hostname: docker-vm
+  hostname: kubernetes-vm
   path: /root/repos/drone-ci-101
 - title: Terminal 2
   type: terminal
-  hostname: docker-vm
+  hostname: kubernetes-vm
 difficulty: basic
 timelimit: 1800
 ---

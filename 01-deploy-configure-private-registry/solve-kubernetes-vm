@@ -5,4 +5,20 @@ set -euxo pipefail
 
 docker run -d -p 0.0.0.0:5001:5000 --name registry registry:2
 
+# some slack for all pods to come up
+sleep 10
+
+systemctl restart k3s
+
+# some slack for all pods to come up
+sleep 10
+
+echo -n 'mirrors:
+  "my-registry.localhost:5001":
+    endpoint:
+      - http://localhost:5001
+  "docker.io":
+    endpoint:
+      - http://localhost:5001' | tee /etc/rancher/k3s/registries.yaml
+
 exit 0
