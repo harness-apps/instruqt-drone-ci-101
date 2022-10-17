@@ -14,7 +14,6 @@ notes:
     - [x] Register and Create an account https://harness.io
     - [x] Configure Harness CD to use your GitHub repository
     - [x] Configure Harness CD to user your Container Registry like DockerHub, Quay.io etc.,
-    - [x] Integrate Drone CI extension with Harness CD
 
     Time: ~30 mins
 tabs:
@@ -31,7 +30,7 @@ tabs:
   url: https://app.harness.io/ng
   new_window: true
 difficulty: basic
-timelimit: 1800
+timelimit: 36000
 ---
 
 👋 Introduction
@@ -152,7 +151,6 @@ Fill the details of the secret as shown and click save to save the secret.
 🐙 GitHub PAT Connector
 -----------------------
 
-
 As did with previous section click on the ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png) to start adding new secret,
 
 Fill the details of the secret as shown and click __Save__ to save the secret.
@@ -190,8 +188,8 @@ cat "$KUBECONFIG" | grep -iA1 server
 As you notice the Kube API server is set to `127.0.0.1` which is fine as long as we connect to Kubernetes cluster from within the lab __Terminal__. To make it accessible form outside world from our Harness CD environment we need to update it as shown,
 
 ```shell
-sed "s|127.0.0.1|kubernetes-vm.${_SANDBOX_ID}.instruqt.io|" "$KUBECONFIG" > "$TUTORIAL_HOME/.kubeconfig.external"
-chmod 0700 "$KUBECONFIG" > "$TUTORIAL_HOME/.kubeconfig.external"
+sed "s|127.0.0.1|kubernetes-vm.${_SANDBOX_ID}.instruqt.io|" "$KUBECONFIG" | tee "$TUTORIAL_HOME/.kubeconfig.external"
+chmod 0700 "$KUBECONFIG" "$TUTORIAL_HOME/.kubeconfig.external"
 ```
 
 ### Client Certificate ###
@@ -233,14 +231,116 @@ As part of this challenge we will configure the following three connectors,
 - [GitHub Connector](https://docs.harness.io/article/jd77qvieuw-add-a-git-hub-connector) to pull Helm manifest sources to deploy the application to Kubernetes Cluster.
 - [Kubernetes Connector](https://docs.harness.io/article/1gaud2efd4-add-a-kubernetes-cluster-connector) to connect to our lab Kubernetes cluster and deploy the Helm charts of the *hello world* application.
 
+Navigate to `__Project Setup__ --> __Connectors__`.
+
+![Connectors](../assets/harness_cd_project_connectors.png)
+
 🐳 Docker Registry Connector
 ----------------------------
+
+Click on the ![Add New Connector](../assets/harness_cd_project_new_connector.png) to start adding new Docker Registry Connector,
+
+Select Docker Registry by navigating to `__Artifact Repositories__ --> __Docker Registry__`,
+
+![Add Docker Registry Connector](../assets/harness_cd_project_docker_reg_connector.png)
+
+Give a name like `DockerHub` and click __Continue__,
+
+![Add Name](../assets/harness_cd_project_docker_reg_name.png)
+
+On the __Details__ screen add the details as shown,
+
+![Docker Registry Details](../assets/harness_cd_project_docker_reg_details.png)
+
+For __Password__(__3__) click the `Create or Select Secret` and choose the `my-dockerhub-password` secret and click __Apply Selected__.
+
+![Select Docker Hub Secret](../assets/harness_cd_project_docker_reg_password.png)
+
+Click __Continue__ to move to next screen where you choose how to connect to the __Git__ provider let us choose __Connect Through Harness__ platform as we use public GitHub.
+
+![Connect via Harness](../assets/harness_cd_project_connect_through_harness.png)
+
+Click __Save and Continue__ to finish the connectivity test. If all our connection parameters are right then the connectivity test should succeed.
+
+![Docker Registry Connected](../assets/harness_cd_project_docker_reg_success.png)
+
+Click __Finish__ to complete the Docker Registry Connector creation.
 
 🐙 GitHub Connector
 -------------------
 
+Click on the ![Add New Connector](../assets/harness_cd_project_new_connector.png) to start adding new GitHub Connector,
+
+Select Docker Registry by navigating to `__Code Repositories__ --> __GitHub__`,
+
+![GitHub Connector](../assets/harness_cd_project_gh_connector.png)
+
+Give name to the connector say __GitHub__ and click __Continue__,
+
+![Name the Code Repository](../assets/harness_cd_project_gh_name.png)
+
+Provide the GitHub details such as your GitHub Account Name and Github test repository say `drone-ci-harness-cd-demo` and click __Continue__.
+
+![GitHub Details](../assets/harness_cd_project_gh_details.png)
+
+One the __Credentials__ screen provide your GitHub username. For the password select the __my-github-pat__ secret.
+
+![GitHub Credentials](../assets/harness_cd_project_gh_credentials.png)
+
+Click __Continue__ to move to next screen where you choose how to connect to the __Git__ provider let us choose __Connect Through Harness__ platform as we use public GitHub.
+
+![Connect via Harness](../assets/harness_cd_project_connect_through_harness.png)
+
+Click __Save and Continue__ to finish the connectivity test. If all our connection parameters are right then the connectivity test should succeed.
+
+![GitHub Connected](../assets/harness_cd_project_gh_success.png)
+
+Click __Finish__ to complete the GitHub Connector creation.
+
 🐳 Kubernetes Connector
 -----------------------
+
+Finally we need to add the __Kubernetes__ connector to allow the Harness CD pipelines to deploy to our lab Kubernetes Clusters.
+
+Click on the ![Add New Connector](../assets/harness_cd_project_new_connector.png) to start adding new __Kubernetes__ Connector,
+
+Select Docker Registry by navigating to `__Cloud Providers__ --> __Kubernetes__`,
+
+![Kubernetes Connector](../assets/harness_cd_project_k8s_connector.png)
+
+Give name to the connector say __Lab Kubernetes__ and click __Continue__,
+
+![Name the Code Repository](../assets/harness_cd_project_k8s_name.png)
+
+On the details screen select __Specify master URL and credentials__ option,
+
+On the lab __Terminal__ run the following command,
+
+```shell
+kubectl --kubeconfig "$TUTORIAL_HOME/.kubeconfig.external" config view | grep server
+```
+
+Copy the `server:` value and paste it on to Kubernetes Connector field __Master URL__.
+
+Select the option __Client Key Certificate__ for __Authentication__. As we did earlier for __Client Key__ option choose `lab-kubernetes-client-key-data`, for __Client Certificate__ option choose `lab-kubernetes-client-cert-data` and for __Client Key Algorithm__ choose `RSA`. Leave all other fields to defaults and click __Continue__.
+
+![Kubernetes Cluster Details](../assets/harness_cd_project_k8s_details.png)
+
+Click __Continue__ and use the option __Only use Delegates with all of the following tags__ and select the delegate __my-harness-delegate__ that we deployed earlier
+
+![Use Delegate](../assets/harness_cd_project_k8s_use_delegate.png)
+
+Click __Save and Continue__ to finish the connectivity test. If all our connection parameters are right then the connectivity test should succeed.
+
+![Kubernetes Connected](../assets/harness_cd_project_k8s_success.png)
+
+>__NOTE:__ It might take few seconds for the connection test to finish
+
+Click __Finish__ to complete the Kubernetes Connector creation.
+
+If all went well we should see the following connectors on the __Connectors Dashboard__.
+
+![All Dashboards](../assets/harness_cd_project_all_connectors.png)
 
 🏁 Finish
 =========

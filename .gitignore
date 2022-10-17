@@ -14,3 +14,4 @@ work/**
 hack/*.yaml
 hack/registries.yaml
 *.code-workspace
+*-delegate.yml
