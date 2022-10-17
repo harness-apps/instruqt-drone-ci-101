@@ -1,13 +1,13 @@
 ---
-slug: integrate-with-harness-cd
+slug: setup-harness-cd
 id: 3hl608ktdrht
 type: challenge
-title: integrate-with-harness-cd
+title: setup-harness-cd
 teaser: Deliver software faster, with visibility and control.
 notes:
 - type: text
   contents: |
-    Until now we saw how do CI from your laptops. As part of this challenge we will explore how to integrate your local CI with Harness CD(Free Tier) to perform Continuous Deployments(CD).
+    Until now we saw how do CI from your laptops. As part of this challenge we will setup your  Harness CD(Free Tier) to enable to us to perform Continuous Deployments(CD).
     ## Objectives
 
     In this challenge, this is what you'll learn:
