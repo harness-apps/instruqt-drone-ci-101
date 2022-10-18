@@ -2,7 +2,7 @@
 slug: deploy-ci-cd-pipeline
 id: cxo0p9i0zdsl
 type: challenge
-title: deploy-ci-cd-pipeline
+title: Create and Integrate CI/CD Pipeline
 teaser: Deliver software faster, with visibility and control.
 notes:
 - type: text
@@ -165,6 +165,27 @@ Click __Save__ to save the CD pipeline.
 
 ![Saved Pipeline](../assets/harness_cd_new_pipeline_saved.png)
 
+🔥 Add Trigger
+==============
+
+[Triggers](https://docs.harness.io/article/c1eskrgngf-trigger-on-a-new-artifact) allow the CD pipeline to started on certain events. In this challenge we will learn how to create a trigger that will start pipeline whenever a new image(__Primary Artifact__) is pushed to DockerHub registry.
+
+Navigate to` __Project__` --> `__Pipelines__` --> `__hello-world` --> Triggers` and click __Add Trigger__ to add a new trigger.
+
+![Add New Trigger](../assets/harness_cd_new_trigger.png)
+
+Select __Artifact__ and choose __Docker Registry__ as the artifact.
+
+![Add New Trigger](../assets/harness_cd_new_trigger_artifact.png)
+
+Give a name to the Trigger say `hello-world-from-dockerhub` and configure it to listen to the pipeline's primary artifact by clicking `+Select Artifact`.
+
+![Configure Artifact](../assets/harness_cd_new_trigger_artifact_config.png)
+
+Click __Continue__ on the next two screens leaving others to defaults.
+
+![New Trigger Complete](../assets/harness_cd_new_trigger_complete.png)
+
 🔧 Run CI Pipeline
 ==================
 
@@ -188,22 +209,30 @@ If you have not imported the project on to Drone CI extension on Docker Desktop,
 Before running the pipeline create a file called `secrets` with the following content,
 
 <pre>
-image_registry_username: <your docker hub user name>
-image_registry_password: <your docker hub password>
+image_registry_username: &lt;your docker hub user name&gt;
+image_registry_password: &lt;your docker hub password&gt;
 </pre>
+
+>__IMPORTANT:__ The `image_registry_username` and `image_registry_password` should be the same that was used when configuring Docker Registry Connector.
 
 Create a file called `.env` with the following values,
 
 <pre>
-PLUGIN_REPO=<your image repo>
+PLUGIN_REPO=&lt;your image repo&gt;
 PLUGIN_TAG=0.0.1
 </pre>
 
->__IMPORTANT:__ The `PLUGIN_REPO` should be the same repository that you had configured in Harness CD as the  __Primary Artifact__.
+>__IMPORTANT:__ The `PLUGIN_REPO` should be the same repository that you had configured in Harness CD as the  __Primary Artifact__'s __LOCATION__ value.
+>
+> ![PLUGIN_REPO](../assets/plugin_repo_artifact_mapping.png)
 
 Run the Drone CI pipeline from Drone CI extension with following configuration,
 
 ![Run Hello World](../assets/drone_ci_extn_run_options.png)
+
+Once the image is pushed to your Docker Hub registry, you should see the CD pipeline getting triggered.
+
+>__IMPORTANT:__ The CD Pipeline does polling of the registry every `2 mins` i.e. the CD does not kick in immediately after the image is pushed
 
 🏁 Finish
 =========

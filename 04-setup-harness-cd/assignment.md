@@ -2,7 +2,7 @@
 slug: setup-harness-cd
 id: 3hl608ktdrht
 type: challenge
-title: setup-harness-cd
+title: Setup your Harness Account
 teaser: Deliver software faster, with visibility and control.
 notes:
 - type: text
