@@ -30,7 +30,7 @@ tabs:
   url: https://app.harness.io/ng
   new_window: true
 difficulty: basic
-timelimit: 36000
+timelimit: 1800
 ---
 
 👋 Introduction
@@ -148,73 +148,14 @@ Fill the details of the secret as shown and click save to save the secret.
 >
 > Though we can use encryption for usernames as well but for this challenge we will store the username(s) as plain text.
 
-🐙 GitHub PAT Connector
------------------------
+🐙 GitHub PAT
+-------------
 
 As did with previous section click on the ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png) to start adding new secret,
 
 Fill the details of the secret as shown and click __Save__ to save the secret.
 
 [!GitHub PAT](../assets/harness_cd_project_github_pat_secret.png)
-
-🐳 Kubernetes Secret
---------------------
-
-The Kubernetes Connector that we will configure in upcoming section requires  one for each of the following,
-
-- Client Key
-- Client Certificate
-
-### Kubeconfig ###
-
-On the __Terminal__ tab navigate to the tutorial home folder,
-
-```shell
-cd "$TUTORIAL_HOME"
-```
-
-As prompted let us set some environment variables,
-
-```shell
-direnv allow .
-```
-
-From your lab environment get the kubeconfig,
-
-```shell
-cat "$KUBECONFIG" | grep -iA1 server
-```
-
-As you notice the Kube API server is set to `127.0.0.1` which is fine as long as we connect to Kubernetes cluster from within the lab __Terminal__. To make it accessible form outside world from our Harness CD environment we need to update it as shown,
-
-```shell
-sed "s|127.0.0.1|kubernetes-vm.${_SANDBOX_ID}.instruqt.io|" "$KUBECONFIG" | tee "$TUTORIAL_HOME/.kubeconfig.external"
-chmod 0700 "$KUBECONFIG" "$TUTORIAL_HOME/.kubeconfig.external"
-```
-
-### Client Certificate ###
-
-Open the `$TUTORIAL_HOME/.kubeconfig.external` using the editor tab and copy the __value__ of __client-certificate-data__ (should be approximately line #18),
-
-![Copy Client Certificate](../assets/harness_cd_project_k8s_client_cert_secret_value.png)
-
-As did earlier add the __Client Certificate__ by clicking ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png),
-
-Fill the details of the secret as shown and click __Save__ to save the secret.
-
-[!Kubernetes Client Cert](../assets/harness_cd_project_k8s_client_cert_secret.png)
-
-### Client Key ###
-
-On the opened __Editor__ tab copy the __value__ of __client-key-data__ (should be approximately line #19) from the file `$TUTORIAL_HOME/.kubeconfig.external`.
-
-![Copy Client Certificate](../assets/harness_cd_project_k8s_client_key_secret_value.png)
-
-As did earlier add the __Client Key__ by clicking ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png),
-
-Fill the details of the secret as shown and click __Save__ to save the secret.
-
-[!Kubernetes Client Key](../assets/harness_cd_project_k8s_client_key_secret.png)
 
 With this your project's __Secrets__ dashboard should look like,
 
@@ -312,29 +253,15 @@ Give name to the connector say __Lab Kubernetes__ and click __Continue__,
 
 ![Name the Code Repository](../assets/harness_cd_project_k8s_name.png)
 
-On the details screen select __Specify master URL and credentials__ option,
+As you have the Harness Delegate running the Lab Kubernetes Cluster, on the details screen select ![Kubernetes use Harness Delegate](../assets/harness_cd_project_k8s_connector_use_delegate.png) option and click __Continue__,
 
-On the lab __Terminal__ run the following command,
-
-```shell
-kubectl --kubeconfig "$TUTORIAL_HOME/.kubeconfig.external" config view | grep server
-```
-
-Copy the `server:` value and paste it on to Kubernetes Connector field __Master URL__.
-
-Select the option __Client Key Certificate__ for __Authentication__. As we did earlier for __Client Key__ option choose `lab-kubernetes-client-key-data`, for __Client Certificate__ option choose `lab-kubernetes-client-cert-data` and for __Client Key Algorithm__ choose `RSA`. Leave all other fields to defaults and click __Continue__.
-
-![Kubernetes Cluster Details](../assets/harness_cd_project_k8s_details.png)
-
-Click __Continue__ and use the option __Only use Delegates with all of the following tags__ and select the delegate __my-harness-delegate__ that we deployed earlier
+On the next screen, use the option __Only use Delegates with all of the following tags__ and select the delegate __my-harness-delegate__ that we deployed earlier,
 
 ![Use Delegate](../assets/harness_cd_project_k8s_use_delegate.png)
 
 Click __Save and Continue__ to finish the connectivity test. If all our connection parameters are right then the connectivity test should succeed.
 
 ![Kubernetes Connected](../assets/harness_cd_project_k8s_success.png)
-
->__NOTE:__ It might take few seconds for the connection test to finish
 
 Click __Finish__ to complete the Kubernetes Connector creation.
 

@@ -30,7 +30,7 @@ tabs:
   url: https://app.harness.io/ng
   new_window: true
 difficulty: basic
-timelimit: 36000
+timelimit: 1800
 ---
 
 👋 Introduction
@@ -170,7 +170,11 @@ Click __Save__ to save the CD pipeline.
 
 [Triggers](https://docs.harness.io/article/c1eskrgngf-trigger-on-a-new-artifact) allow the CD pipeline to started on certain events. In this challenge we will learn how to create a trigger that will start pipeline whenever a new image(__Primary Artifact__) is pushed to DockerHub registry.
 
-Navigate to` __Project__` --> `__Pipelines__` --> `__hello-world` --> Triggers` and click __Add Trigger__ to add a new trigger.
+Navigate to` __Project__` --> `__Pipelines__` --> `__hello-world` --> `Triggers`,
+
+![Triggers](../assets/harness_cd_new_pipeline_add_triggers.png)
+
+Click __Add Trigger__ to add a new trigger.
 
 ![Add New Trigger](../assets/harness_cd_new_trigger.png)
 
@@ -232,7 +236,41 @@ Run the Drone CI pipeline from Drone CI extension with following configuration,
 
 Once the image is pushed to your Docker Hub registry, you should see the CD pipeline getting triggered.
 
->__IMPORTANT:__ The CD Pipeline does polling of the registry every `2 mins` i.e. the CD does not kick in immediately after the image is pushed
+>__IMPORTANT:__ The CD Pipeline does polling of the registry every `2 mins` i.e. the CD does not kick in immediately after the image is pushed.
+
+🔧 Verify Deployment
+====================
+
+Wait for the pipeline to be complete,
+
+![Pipeline Executions](../assets/harness_cd_pipeline_executions.png)
+
+>__NOTE:__ The screen shot above shows multiple executions but in your case you will have only one execution.
+
+Once the pipeline is successful, verify your deployment by running the following command,
+
+```shell
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services hello-world)
+http localhost:$NODE_PORT/hello-world
+```
+
+The command should show the following output,
+
+```text
+HTTP/1.1 200
+Connection: keep-alive
+Content-Type: application/json
+Date: Wed, 19 Oct 2022 05:30:43 GMT
+Keep-Alive: timeout=60
+Transfer-Encoding: chunked
+
+{
+    "content": "Hello, Harness!",
+    "id": 1
+}
+```
+
+Any new update and running CI should trigger a new deployment via Harness CD.
 
 🏁 Finish
 =========
