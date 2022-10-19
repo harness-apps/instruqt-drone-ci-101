@@ -405,8 +405,6 @@ steps:
         from_secret: postgres_user
       PGPASSWORD:
         from_secret: postgres_password
-      PGDATABASE:
-        from_secret: postgres_db
 
 services:
   - name: postgres
