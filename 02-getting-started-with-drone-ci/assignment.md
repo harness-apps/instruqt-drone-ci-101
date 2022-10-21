@@ -160,13 +160,13 @@ Lets take an example of building and pushing our application as a container imag
 Pipeline
 --------
 
-On the **Terminal** tab navigate back to `$TUTORIAL_HOME/hello-go` folder
+On the **Terminal** tab navigate back to `$TUTORIAL_HOME/go-hello-world` folder
 
 ```shell
-cd $TUTORIAL_HOME/hello-go
+cd $TUTORIAL_HOME/go-hello-world
 ```
 
-Open the exercise folder **$TUTORIAL_HOME/hello-go** on the **Editor** and analyse the Drone pipeline,
+Open the exercise folder **$TUTORIAL_HOME/go-hello-world** on the **Editor** and analyse the Drone pipeline,
 
 ```yaml
 kind: pipeline
@@ -178,8 +178,12 @@ steps:
 - name: build-image
   image: plugins/docker
   settings:
-    repo: localhost:5001/example/hello-go
+    repo: localhost:5001/example/go-hello-world
     insecure: true
+  environment:
+    # enable docker buildkit
+    # https://docs.docker.com/develop/develop-images/build_enhancements/#to-enable-buildkit-builds
+    DOCKER_BUILDKIT: "1"
   volumes:
     - name: docker-sock
       path: /var/run/docker.sock
@@ -213,7 +217,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 CMD [ "/build/server" ]
 ```
 
-And pushes the image to local container registry `localhost:5001` as *localhost:5001/example/hello-go*.
+And pushes the image to local container registry `localhost:5001` as *localhost:5001/example/go-hello-world*.
 
 > **NOTE**:
 > The docker build is done using Drone **Plugins**, we will talk more about it in upcoming chapters
