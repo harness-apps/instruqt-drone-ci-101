@@ -69,5 +69,6 @@ echo 'export TUTORIAL_HOME=/root/repos/drone-ci-101' >> /root/.bashrc
 
 cd "$HOME/repos" || true
 git clone https://github.com/harness-apps/drone-ci-101.git drone-ci-101
+git clone https://github.com/harness-apps/drone-ci-harness-cd-demo.git drone-ci-harness-cd-demo
 
 set-workdir "$PWD"

@@ -1,6 +1,6 @@
 ---
 slug: deploy-configure-private-registry
-id: wv3kssi1aj6y
+id: x8feytzh3v28
 type: challenge
 title: Deploy and Configure Private Container Registry
 teaser: Deploy and Configure a local container registry

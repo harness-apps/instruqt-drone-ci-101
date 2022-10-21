@@ -1,6 +1,6 @@
 ---
 slug: setup-harness-cd
-id: 3hl608ktdrht
+id: c9xmp139xwcx
 type: challenge
 title: Setup your Harness Account
 teaser: Deliver software faster, with visibility and control.
@@ -49,6 +49,38 @@ Before we get started with the exercises of this chapter, you need to have the f
 - An account with [Docker Hub](https://hub.docker.com) or [Quay.io](https://quay.io).
 - Forked the project <https://github.com/harness-apps/drone-ci-harness-cd-demo> under your GitHub account.
 
+Create Docker Repository
+========================
+
+As part of the upcoming exercises you will be building and pushing the image to a Docker Registry.
+
+On the lab __Terminal__ navigate to `$TUTORIAL_HOME`,
+
+```shell
+cd $TUTORIAL_HOME
+```
+
+Edit the "$TUTORIAL_HOME/.envrc" using the __Editor__ tab and update the value `$DOCKERHUB_USERNAME` and `$DOCKERHUB_PASSWORD` to match your DockerHub credentials.
+
+Reload the environment variables to that the updated values are loaded.
+
+```shell
+direnv allow .
+```
+
+Create and push a dummy image to the Docker repository,
+
+```shell
+docker pull gcr.io/google-samples/hello-app:1.0
+docker tag gcr.io/google-samples/hello-app:1.0 "$DOCKERHUB_IMAGE_REPO:latest"
+echo -n "${DOCKERHUB_PASSWORD}" | docker login -u $DOCKERHUB_USERNAME --password-stdin
+docker push "$DOCKERHUB_IMAGE_REPO:latest"
+```
+
+>__IMPORTANT:__
+>
+> - It is OK to push dummy image now as we will be pushing an updated image as part of the CI pipeline in upcoming sections
+
 Register with Harness
 =====================
 
@@ -70,6 +102,8 @@ You can give any name you want, but rest of the instructions we will refer to th
 ![Harness New Project](../assets/harness_cd_new_project.png)
 
 On the __Harness Modules__ screen choose "Continuous Delivery" and "Start Free Plan".
+
+![CD Module](../assets/harness_cd_new_project_cd_module.png)
 
 __NOTE:__ Click `x` to cancel pipeline creation as we will be creating one as part of the upcoming sections.
 
@@ -97,6 +131,8 @@ Give a name to the delegate like __my-harness-delegate__, select the delegate si
 On the next screen click the __Copy to Clipboard__ to copy the Kubernetes manifest to clipboard.
 
 Go to the Editor tab and create new file called `harness-delegate.yml` and paste the copied content on to the file. Click __Save__ to save the file.
+
+>__TIP:__ You can also save the delegate locally and apply it any number of times in case you create new clusters.
 
 Get back to the Harness Window and click __Continue__ to finish the wizard.
 
@@ -133,29 +169,29 @@ Before we go further into creation of secrets ensure you have the following deta
 
 Navigate to `__Project Setup__ --> __Secrets__`.
 
-🐳 Docker Registry
-------------------
+Docker Registry
+---------------
 
 ![Project Secrets](../assets/harness_cd_project_secrets.png)
 
 Click on the ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png) to start adding new secret,
 
-Fill the details of the secret as shown and click save to save the secret.
+Fill the details of the secret with name `my-dockerhub-password`, with Secret Value to be `$DOCKERHUB_PASSWORD` and click save to save the secret.
 
-[!Docker Registry Secret](../assets/harness_cd_project_docker_reg_secret.png)
+![Docker Registry Secret](../assets/harness_cd_project_docker_reg_secret.png)
 
 > __NOTE:__
 >
 > Though we can use encryption for usernames as well but for this challenge we will store the username(s) as plain text.
 
-🐙 GitHub PAT
--------------
+GitHub PAT
+----------
 
 As did with previous section click on the ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png) to start adding new secret,
 
-Fill the details of the secret as shown and click __Save__ to save the secret.
+Fill the details of the secret with name `my-github-pat`, with Secret Value to be that of your GitHub PAT and click __Save__ to save the secret.
 
-[!GitHub PAT](../assets/harness_cd_project_github_pat_secret.png)
+![GitHub PAT](../assets/harness_cd_project_github_pat_secret.png)
 
 With this your project's __Secrets__ dashboard should look like,
 
@@ -176,8 +212,8 @@ Navigate to `__Project Setup__ --> __Connectors__`.
 
 ![Connectors](../assets/harness_cd_project_connectors.png)
 
-🐳 Docker Registry Connector
-----------------------------
+Docker Registry Connector
+-------------------------
 
 Click on the ![Add New Connector](../assets/harness_cd_project_new_connector.png) to start adding new Docker Registry Connector,
 
@@ -189,7 +225,7 @@ Give a name like `DockerHub` and click __Continue__,
 
 ![Add Name](../assets/harness_cd_project_docker_reg_name.png)
 
-On the __Details__ screen add the details as shown,
+On the __Details__ screen use the Docker Registry URL as `https://index.docker.io/v2/` add fill other details as shown,
 
 ![Docker Registry Details](../assets/harness_cd_project_docker_reg_details.png)
 
@@ -207,8 +243,8 @@ Click __Save and Continue__ to finish the connectivity test. If all our connecti
 
 Click __Finish__ to complete the Docker Registry Connector creation.
 
-🐙 GitHub Connector
--------------------
+GitHub Connector
+----------------
 
 Click on the ![Add New Connector](../assets/harness_cd_project_new_connector.png) to start adding new GitHub Connector,
 
@@ -238,7 +274,7 @@ Click __Save and Continue__ to finish the connectivity test. If all our connecti
 
 Click __Finish__ to complete the GitHub Connector creation.
 
-🐳 Kubernetes Connector
+Kubernetes Connector
 -----------------------
 
 Finally we need to add the __Kubernetes__ connector to allow the Harness CD pipelines to deploy to our lab Kubernetes Clusters.

@@ -1,6 +1,6 @@
 ---
 slug: getting-started-with-drone-ci
-id: mkinphy1cfzk
+id: zaiaj9p9de4v
 type: challenge
 title: Getting started with Drone CI
 teaser: Introduction to Drone CI
@@ -48,7 +48,7 @@ Download and Install Drone CLI
 Let us download and install Drone CLI,
 
 ```shell
-curl -L https://github.com/harness/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+curl -L https://github.com/harness/drone-cli/releases/download/v1.6.1/drone_linux_amd64.tar.gz| tar zx
 install -t /usr/local/bin drone
 ```
 
@@ -58,7 +58,7 @@ Check if you are able to access and use `drone` binary,
 drone --version
 ```
 
-The command should show an output like `v1.5.0`.
+The command should show an output like `v1.6.1`.
 
 Ensure Environment
 ==================

@@ -1,6 +1,6 @@
 ---
 slug: deploy-ci-cd-pipeline
-id: cxo0p9i0zdsl
+id: ku38bbmwr0xr
 type: challenge
 title: Create and Integrate CI/CD Pipeline
 teaser: Deliver software faster, with visibility and control.
@@ -23,7 +23,7 @@ tabs:
 - title: Editor
   type: code
   hostname: kubernetes-vm
-  path: /root/repos/drone-ci-101
+  path: /root/repos
 - title: Harness CD
   type: website
   path: /
@@ -51,6 +51,7 @@ Pre-Requisites
 ===============
 
 You should completed the earlier challenge as this challenge depends resources created earlier.
+
 
 🔧 Create Pipeline
 ==================
@@ -247,7 +248,7 @@ Wait for the pipeline to be complete,
 
 >__NOTE:__ The screen shot above shows multiple executions but in your case you will have only one execution.
 
-Once the pipeline is successful, verify your deployment by running the following command,
+Once the pipeline is successful, verify your deployment by running the following command on lab __Terminal__,
 
 ```shell
 export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services hello-world)
@@ -265,12 +266,12 @@ Keep-Alive: timeout=60
 Transfer-Encoding: chunked
 
 {
-    "content": "Hello, Harness!",
+    "content": "Hello, Stranger!",
     "id": 1
 }
 ```
 
-Any new update and running CI should trigger a new deployment via Harness CD.
+Any new update top the sources and running CI should now trigger a new deployment to the Kubernetes Cluster via Harness CD Pipeline.
 
 🏁 Finish
 =========
