@@ -69,6 +69,10 @@ docker --version
 
 The command should show an output like `Docker version 20.10.12, build e91ed57`
 
+Writing Pipelines
+==================
+
+
 Your first Pipeline
 -------------------
 
@@ -217,7 +221,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 CMD [ "/build/server" ]
 ```
 
-And pushes the image to local container registry `localhost:5001` as *localhost:5001/example/go-hello-world*.
+And pushes the image to local container registry `localhost:5001` as *localhost:5001/example/go-hello-world:latest*.
 
 > **NOTE**:
 > The docker build is done using Drone **Plugins**, we will talk more about it in upcoming chapters
@@ -236,10 +240,10 @@ drone exec --trusted
 Once the pipeline is successful, you can test the built image by running the following command,
 
 ```shell
-docker run --detach --name=hello-go -p8080:8080 localhost:5001/example/hello-go
+docker run --detach --name=hello-go -p8080:8080 localhost:5001/example/go-hello-world
 ```
 
-Now doing a `curl localhost:8080` should return a response **Hello, World!**.
+Now doing a `curl localhost:8080/hello-world` should return a response **Hello, World!**.
 
 > **Plugins**:
 >

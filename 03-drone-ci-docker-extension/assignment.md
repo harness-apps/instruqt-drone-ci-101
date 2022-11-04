@@ -103,13 +103,13 @@ Now try running the same pipeline with **Trusted** enabled to see it succeed.
 Once the build is successful you can run the image using the command,
 
 ```shell
-docker run -p 8080:8080 localhost:5001/example/hello-go
+docker run -p 8080:8080 localhost:5001/example/go-hello-world:latest
 ```
 
-Then running the following command should return **Hello World**
+Then running the following command should return **Hello World!**
 
 ```shell
-curl localhost:8080/
+curl localhost:8080/hello-world
 ```
 
 Run Specific Steps

@@ -29,6 +29,9 @@ tabs:
   path: /
   url: https://app.harness.io/ng
   new_window: true
+- title: Terminal 2
+  type: terminal
+  hostname: kubernetes-vm
 difficulty: basic
 timelimit: 1800
 ---

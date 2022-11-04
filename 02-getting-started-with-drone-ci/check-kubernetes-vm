@@ -7,6 +7,6 @@ drone_version=$(drone --version)
 [[ "$drone_version" == 'drone version 1.6.1' ]] || fail-message " expecting drone command to succeed"
 
 docker_version=$(docker --version)
-[[ "$docker_version" == 'Docker version 20.10.18, build b40c2f6' ]] || fail-message "expecting docker or podman cli to be available"
+[[ "$docker_version" == 'Docker version 20.10.21, build baeda1f' ]] || fail-message "expecting docker or podman cli to be available"
 
 exit 0
