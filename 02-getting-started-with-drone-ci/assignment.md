@@ -48,7 +48,7 @@ Download and Install Drone CLI
 Let us download and install Drone CLI,
 
 ```shell
-curl -L https://github.com/harness/drone-cli/releases/download/v1.6.1/drone_linux_amd64.tar.gz| tar zx
+curl -L https://github.com/harness/drone-cli/releases/download/v1.6.2/drone_linux_amd64.tar.gz| tar zx
 install -t /usr/local/bin drone
 ```
 
@@ -58,7 +58,7 @@ Check if you are able to access and use `drone` binary,
 drone --version
 ```
 
-The command should show an output like `v1.6.1`.
+The command should show an output like `v1.6.2`.
 
 Ensure Environment
 ==================
