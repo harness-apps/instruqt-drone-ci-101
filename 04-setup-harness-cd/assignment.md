@@ -63,7 +63,18 @@ On the lab __Terminal__ navigate to `$TUTORIAL_HOME`,
 cd $TUTORIAL_HOME
 ```
 
-Edit the "$TUTORIAL_HOME/.envrc" using the __Editor__ tab and update the value `$DOCKERHUB_USERNAME` and `$DOCKERHUB_PASSWORD` to match your DockerHub credentials.
+Edit the "$TUTORIAL_HOME/.envrc" using the __Editor__ tab and add the following environment variable,
+
+```shell
+# your container image registry username
+export IMAGE_REGISTRY_USERNAME=
+# your container image registry user password
+export IMAGE_REGISTRY_PASSWORD=
+# image registry where we will push the image e.g ghcr.io
+export IMAGE_REGISTRY=
+# image repo where we will push the image e.g "$IMAGE_REGISTRY/$IMAGE_REGISTRY_USERNAME/drone-ci-cd-hello-world"
+export IMAGE_REPO=
+```
 
 Reload the environment variables to that the updated values are loaded.
 
@@ -75,14 +86,15 @@ Create and push a dummy image to the Docker repository,
 
 ```shell
 docker pull gcr.io/google-samples/hello-app:1.0
-docker tag gcr.io/google-samples/hello-app:1.0 "$DOCKERHUB_IMAGE_REPO:latest"
-echo -n "${DOCKERHUB_PASSWORD}" | docker login -u $DOCKERHUB_USERNAME --password-stdin
-docker push "$DOCKERHUB_IMAGE_REPO:latest"
+docker tag gcr.io/google-samples/hello-app:1.0 "$IMAGE_REPO:latest"
+echo -n "${IMAGE_REGISTRY_PASSWORD}" | docker login "$IMAGE_REGISTRY" -u $IMAGE_REGISTRY_USERNAME --password-stdin
+docker push "$IMAGE_REPO:latest"
 ```
 
 >__IMPORTANT:__
 >
 > - It is OK to push dummy image now as we will be pushing an updated image as part of the CI pipeline in upcoming sections
+> - Most of the container registries make the repositories private by default, make sure you mark them as public
 
 Register with Harness
 =====================
@@ -179,7 +191,7 @@ Docker Registry
 
 Click on the ![Add Text Secret](../assets/add_harness_cd_project_text_secret.png) to start adding new secret,
 
-Fill the details of the secret with name `my-dockerhub-password`, with Secret Value to be `$DOCKERHUB_PASSWORD` and click save to save the secret.
+Fill the details of the secret with name `my-dockerhub-password`, with Secret Value to be `$IMAGE_REGISTRY_PASSWORD` and click save to save the secret.
 
 ![Docker Registry Secret](../assets/harness_cd_project_docker_reg_secret.png)
 

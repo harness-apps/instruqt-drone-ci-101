@@ -190,7 +190,11 @@ Give a name to the Trigger say `hello-world-from-dockerhub` and configure it to 
 
 ![Configure Artifact](../assets/harness_cd_new_trigger_artifact_config.png)
 
-Click __Continue__ on the next two screens leaving others to defaults.
+Click __Continue__ on the next screen(s) leaving others to defaults.
+
+On the __Pipeline Input__ screen set the __Tag__ value to be an expression `<+trigger.artifact.build>`. That allows the pipeline to be triggered on very new image push to the registry,
+
+![Configure Artifact Tag](../assets/harness_cd_new_trigger_artifact_tag.png)
 
 ![New Trigger Complete](../assets/harness_cd_new_trigger_complete.png)
 
@@ -212,27 +216,27 @@ Reload the environment variables,
 direnv allow .
 ```
 
-If you have not imported the project on to Drone CI extension on Docker Desktop, import the project `java-hello-world`.
+If you have not imported the project on to Drone CI extension on Docker Desktop, import the project `go-hello-world`.
 
-Before running the pipeline create a file called `secrets` with the following content,
-
-<pre>
-image_registry_username: &lt;your docker hub user name&gt;
-image_registry_password: &lt;your docker hub password&gt;
-</pre>
-
->__IMPORTANT:__ The `image_registry_username` and `image_registry_password` should be the same that was used when configuring Docker Registry Connector.
+>__IMPORTANT:__
 
 Create a file called `.env` with the following values,
 
-<pre>
-PLUGIN_REPO=&lt;your image repo&gt;
+```shell
+PLUGIN_REGISTRY="$IMAGE_REGISTRY"
+PLUGIN_REPO="$IMAGE_REPO"
 PLUGIN_TAG=0.0.1
-</pre>
+PLUGIN_USERNAME="$IMAGE_REGISTRY_USERNAME"
+PLUGIN_PASSWORD="$IMAGE_REGISTRY_PASSWORD"
+```
 
->__IMPORTANT:__ The `PLUGIN_REPO` should be the same repository that you had configured in Harness CD as the  __Primary Artifact__'s __LOCATION__ value.
+>__IMPORTANT:__
+>
+> - The `PLUGIN_REPO` should be the same repository that you had configured in Harness CD as the  __Primary Artifact__'s __LOCATION__ value.
 >
 > ![PLUGIN_REPO](../assets/plugin_repo_artifact_mapping.png)
+>
+> - The `PLUGIN_USERNAME` and `PLUGIN_PASSWORD` should be the same that was used when configuring Docker Registry Connector.
 
 Run the Drone CI pipeline from Drone CI extension with following configuration,
 

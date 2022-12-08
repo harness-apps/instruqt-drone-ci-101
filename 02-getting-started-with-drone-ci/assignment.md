@@ -58,7 +58,7 @@ Check if you are able to access and use `drone` binary,
 drone --version
 ```
 
-The command should show an output like `v1.6.2`.
+The command should show an output like `drone version 1.6.2`.
 
 Ensure Environment
 ==================
@@ -67,7 +67,7 @@ Ensure Environment
 docker --version
 ```
 
-The command should show an output like `Docker version 20.10.12, build e91ed57`
+The command should show an output like `Docker version 20.10.21, build baeda1f`
 
 Writing Pipelines
 ==================
@@ -140,7 +140,13 @@ steps:
   - echo 'Good bye'
 ```
 
-Try running the `drone exec` command again to see the output as shown,
+Try running the `drone` command again,
+
+```shell
+drone exec
+```
+
+The pipeline run shows the following output,
 
 ```text
 [say hello:0] + echo 'Hello World'
@@ -152,7 +158,7 @@ Try running the `drone exec` command again to see the output as shown,
 Trusted mode
 ------------
 
-Trusted mode instructs `drone` to run in trusted mode typically with extra privileges.
+Trusted mode instructs `drone` to run in pipelines in privileged mode.
 
 When to use **trusted** mode ?
 
@@ -160,6 +166,7 @@ Lets take an example of building and pushing our application as a container imag
 
 - An application, with Dockerfile to build the container image
 - A local container registry, where the built image will be pushed. We already have container registry that we deployed as part of the first challenge.
+- Mount local folders onto the pipeline containers
 
 Pipeline
 --------
@@ -231,6 +238,18 @@ But to push to the local container registry we need the handle to the docker soc
 Build Application
 -----------------
 
+Let us try running the application without `trusted`,
+
+```shell
+drone exec
+```
+
+The command should fail with the following output,
+
+```text
+linter: untrusted repositories cannot mount host volumes
+```
+
 Build and push the image by running the command,
 
 ```shell
@@ -243,7 +262,11 @@ Once the pipeline is successful, you can test the built image by running the fol
 docker run --detach --name=hello-go -p8080:8080 localhost:5001/example/go-hello-world
 ```
 
-Now doing a `curl localhost:8080/hello-world` should return a response **Hello, World!**.
+Now doing a curl should return a response **Hello, World!**,
+
+```shell
+curl localhost:8080/hello-world
+```
 
 > **Plugins**:
 >

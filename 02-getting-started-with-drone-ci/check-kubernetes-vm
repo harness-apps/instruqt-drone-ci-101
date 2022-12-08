@@ -4,7 +4,7 @@ eval "$(direnv export bash)"
 set -euxo pipefail
 
 drone_version=$(drone --version)
-[[ "$drone_version" == 'drone version 1.6.1' ]] || fail-message " expecting drone command to succeed"
+[[ "$drone_version" == 'drone version 1.6.2' ]] || fail-message " expecting drone command to succeed"
 
 docker_version=$(docker --version)
 [[ "$docker_version" == 'Docker version 20.10.21, build baeda1f' ]] || fail-message "expecting docker or podman cli to be available"
